@@ -8,7 +8,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // 进度条设置，把转圈圈关掉
 
-const whiteList = ['/login'] // 设置白名单
+const whiteList = ['/login','/QRcord'] // 设置白名单
 
 // 路由守卫
 router.beforeEach(async (to, from, next) => {

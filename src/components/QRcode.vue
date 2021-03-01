@@ -7,15 +7,12 @@
 <script>
 import QRCode from "qrcode";
 export default {
-  props: {
-    url: {
-      type: String
-    }
-  },
+  props:['txt2'],
   data() {
     return {
       msg: "hello vue",
-      codes: ""
+      code: "20000",
+      // txt2:"",
     };
   },
 
@@ -26,9 +23,13 @@ export default {
   methods: {
     useqrcode() {
       var canvas = document.getElementById("canvas");
-      QRCode.toCanvas(canvas, this.url, function(error) {
+      
+      this.$router.push({name: 'QRcord',params:{suyuanma:this.txt2}})
+      
+      QRCode.toCanvas(canvas, this.txt2, function(error) {
         if (error) console.error(error);
       });
+      console.log(111)
     }
   },
 

@@ -100,8 +100,8 @@
           <el-button v-if="row.status!='删除'" size="mini" type="danger" @click="handleDelete(row,$index)" round>
             删除
           </el-button>
-          <el-button v-if="row.status!='详细'" size="mini" type="info" round>
-            <router-link to="">二维码</router-link>
+          <el-button v-if="row.status!='详细'" size="mini" type="info" @click="handleDetail(row)" round>
+            详细
           </el-button>
         </template>
       </el-table-column>
@@ -116,11 +116,6 @@
         </el-form-item>
         <el-form-item :label="$t('产商')" prop="producer">
           <el-input v-model="temp.producer" />
-        </el-form-item>
-        <el-form-item :label="$t('种类')" prop="type">
-          <el-select v-model="temp.type" class="filter-item" placeholder="请选择">
-            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
-          </el-select>
         </el-form-item>
         <el-form-item label='封面' prop="image_url">
         <Upload v-model="temp.image_url"/>
@@ -154,6 +149,34 @@
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogPvVisible = false">确定</el-button>
       </span>
+    </el-dialog>
+    <el-dialog title="产品详情" :visible.sync="dialogFormVisible2" width="600px" :model="temp">
+      <el-row type="flex" justify="center" >
+        <el-col>封面：</el-col>
+        <el-col>
+        <img :src="temp.image_url" width="100px" height="75px"/>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col>产品名：</el-col>
+        <el-col>{{temp.productname}}</el-col>      
+      </el-row>
+      <el-row>
+        <el-col>产商：</el-col>
+        <el-col>{{temp.producer}}</el-col>     
+      </el-row>
+      <el-row>
+        <el-col>时间：</el-col>
+        <el-col>{{temp.timestamp}}</el-col>     
+      </el-row>
+      <el-row>
+        <el-col>产品简介：</el-col>
+        <el-col>{{temp.title}}</el-col>
+      </el-row>
+      <el-row>
+        <el-col>状态：</el-col>
+        <el-col>{{temp.status}}</el-col>
+      </el-row>
     </el-dialog>
   </div>
 </template>
@@ -234,6 +257,7 @@ export default {
         }]
       },
       dialogFormVisible: false,
+      dialogFormVisible2: false,
       dialogStatus: '',
       textMap: {
         update: '编辑',
@@ -376,6 +400,12 @@ export default {
           })
         }
       })
+    },
+    handleDetail(row) {
+      this.temp = Object.assign({}, row) // copy obj
+      this.temp.timestamp = new Date(this.temp.timestamp)
+      this.dialogStatus = 'detail'
+      this.dialogFormVisible2 = true
     },
     handleDelete(row, index) {
       this.$confirm('此操作将永久删除该表单, 是否继续?', '提示', {

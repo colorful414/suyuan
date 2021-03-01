@@ -54,6 +54,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/QRcord',
+    name: 'QRcord',
+    component: () => import('@/views/table/QRcord')
+  },
+  {
     path: '/auth-redirect',
     component: () => import('@/views/login/auth-redirect'),
     hidden: true

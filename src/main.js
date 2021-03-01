@@ -19,9 +19,7 @@ import './utils/error-log' // error log
 import * as filters from './filters' // global filters
 import Vant from 'vant';
 import 'vant/lib/index.css';
-import { $sender, $receiver } from "vue-communication";
-Vue.prototype.$sender = $sender;
-Vue.prototype.$receiver = $receiver;
+// import vueConfig from 'vue.config'
 Vue.use(Vant);
 /**
  * If you don't want to use mock-server
@@ -40,7 +38,6 @@ Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
 })
-
 // register global utility filters
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

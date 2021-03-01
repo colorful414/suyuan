@@ -27,7 +27,7 @@
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="溯源码" width="110px" align="center">
+      <el-table-column label="入库溯源码" width="110px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.suyuanma }}</span>
         </template>
