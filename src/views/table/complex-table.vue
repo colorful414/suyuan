@@ -74,7 +74,7 @@
       </el-table-column>
       <el-table-column :label="$t('销量')" align="center" width="95">
         <template slot-scope="{row}">
-          <span v-if="row.pageviews" class="link-type" @click="handleFetchPv(row.pageviews)">{{ row.pageviews }}</span>
+          <span v-if="row.pageviews" class="link-type">{{ row.pageviews }}</span>
           <span v-else>0</span>
         </template>
       </el-table-column>

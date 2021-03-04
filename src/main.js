@@ -21,6 +21,16 @@ import Vant from 'vant';
 import 'vant/lib/index.css';
 // import vueConfig from 'vue.config'
 Vue.use(Vant);
+import echarts from 'echarts'
+// import 'echarts/Theme/temp'
+import 'echarts/map/js/china'
+// import "echarts-gl"
+Vue.prototype.$echarts = echarts
+import bmap from 'vue-baidu-map'
+Vue.use(bmap, {
+  // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
+  ak: '5D1oPOIy2Ysd0mrxoLgNL13Go7QunxX9'
+})
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

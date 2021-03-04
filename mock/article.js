@@ -51,7 +51,7 @@ for (let i = 0; i < count; i++) {
     'status|1': ['已发售', '未发售'],
     display_time: '@datetime',
     comment_disabled: true,
-    pageviews: '@integer(300, 5000)',
+    pageviews: '@integer(0, 5000)',
     image_url,
     suyuanma:'@increment',
     platforms: ['a-platform'],
