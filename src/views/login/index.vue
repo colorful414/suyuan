@@ -1,29 +1,26 @@
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
-
       <div class="title-container">
         <h3 class="title">
           农溯后台登录
         </h3>
         <lang-select class="set-language" />
       </div>
-
-      <el-form-item prop="username">
+      <el-form-item prop="account">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
+          ref="account"
+          v-model="loginForm.account"
           placeholder="用户名"
-          name="username"
+          name="account"
           type="text"
           tabindex="1"
           autocomplete="on"
         />
       </el-form-item>
-
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
@@ -47,11 +44,9 @@
           </span>
         </el-form-item>
       </el-tooltip>
-
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
         登录
       </el-button>
-
       <div style="position:relative">
         <div class="tips">
           <span>用户名 : admin</span>
@@ -98,7 +93,6 @@
         </el-button>
       </div>
     </el-form>
-
     <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
       本地不能模拟，请结合自己业务进行模拟！！！
       <br>
@@ -134,12 +128,12 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        account: 'root',
+        password: '123456'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        account: [{ required: true, trigger: 'blur',  }],
+        password: [{ required: true, trigger: 'blur',  }]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -165,8 +159,8 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
-    if (this.loginForm.username === '') {
-      this.$refs.username.focus()
+    if (this.loginForm.account === '') {
+      this.$refs.account.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }

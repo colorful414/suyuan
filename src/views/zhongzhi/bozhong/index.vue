@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.productname" placeholder="产品名" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.cropName" placeholder="产品名" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-button v-waves class="filter-item" style="margin-left: 80px;" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
@@ -23,34 +23,49 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" prop="id" sortable="custom" align="center" width="180" :class-name="getSortClass('id')">
+      <el-table-column label="播种记录ID" prop="id" sortable="custom" align="center" width="110" :class-name="getSortClass('id')">
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="溯源码" width="110px" align="center">
+      <el-table-column label="播种环节溯源码" width="110px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.suyuanma }}</span>
+          <span>{{ row.seedCode }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="产品名" width="110px" align="center">
+      <el-table-column label="作物名称" width="110px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.productname }}</span>
+          <span>{{ row.cropName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="播种时间" width="150px" align="center">
+      <el-table-column label="种子来源" width="110px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.timebozhong | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          <span>{{ row.seedSource }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="播种时间" width="180px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.seedTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="播种量(kg)" width="110px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.bozhongnum }}</span>
+          <span>{{ row.seedRate }}</span>
         </template>
       </el-table-column>
       <el-table-column label="播种地点" width="110px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.productbozhonglocation }}</span>
+          <span>{{ row.seedPlace }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="种植员" width="110px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.seedPeople }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="备注" width="110px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.remark }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="250" class-name="small-padding fixed-width"
@@ -70,20 +85,32 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="800px">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="溯源码" prop="suyuanma">
-          <el-input v-model="temp.suyuanma" />
+        <el-form-item label="播种记录ID" prop="seedCode">
+          <el-input v-model="temp.id"  :disabled='isDis'/>
         </el-form-item>
-        <el-form-item label="产品名" prop="productname">
-          <el-input v-model="temp.productname" />
+        <el-form-item label="播种环节溯源码" prop="seedCode">
+          <el-input v-model="temp.seedCode" :disabled='isDis'/>
         </el-form-item>
-        <el-form-item label="播种时间" prop="timebozhong">
-          <el-date-picker v-model="temp.timebozhong" type="datetime" placeholder="Please pick a date" />
+        <el-form-item label="作物名称" prop="cropName">
+          <el-input v-model="temp.cropName" />
         </el-form-item>
-        <el-form-item label="播种量" prop="productbozhonglocation">
-          <el-input v-model="temp.bozhongnum" />
+        <el-form-item label="种子来源" prop="cropName">
+          <el-input v-model="temp.seedSource" />
         </el-form-item>
-        <el-form-item label="播种地点" prop="productbozhonglocation">
-          <el-input v-model="temp.productbozhonglocation" />
+        <el-form-item label="播种时间" prop="seedTime" v-show='timeShow'>
+          <el-date-picker v-model="temp.seedTime" type="datetime" placeholder="Please pick a date" />
+        </el-form-item>
+        <el-form-item label="播种量" prop="seedPlace">
+          <el-input v-model="temp.seedRate" />
+        </el-form-item>
+        <el-form-item label="播种地点" prop="seedPlace">
+          <el-input v-model="temp.seedPlace" />
+        </el-form-item>
+        <el-form-item label="种植员" prop="seedPlace">
+          <el-input v-model="temp.seedPeople" />
+        </el-form-item>
+        <el-form-item label="备注" prop="seedPlace">
+          <el-input v-model="temp.remark" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -99,7 +126,7 @@
 </template>
 
 <script>
-import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
+import { seedList, detail, create, update, deletes } from '@/api/bozhong'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
@@ -131,24 +158,34 @@ export default {
       list: null,
       total: 0,
       listLoading: true,
+      isDis:true,
+      timeShow:true,
       listQuery: {
         page: 1,
         limit: 20,
-        suyuanma: undefined,
-        productname:'',
-        productbozhonglocation:'',
+        seedCode: undefined,
+        cropName:'',
+        seedPlace:'',
         sort: '+id',
-        timebozhong: new Date(),
-        bozhongnum: '',
+        seedTime: new Date(),
+        seedRate: '',
+        seedSource: '',
+        seedPeople:'',
+        remark:'',
       },
       calendarTypeOptions,
       temp: {
         id: undefined,
-        suyuanma:'',
-        productname:'',
-        productbozhonglocation:'',
-        timebozhong: new Date(),
-        bozhongnum: '',
+        seedCode:'',
+        cropName:'',
+        seedPlace:'',
+        seedTime: new Date(),
+        seedRate: '',
+        seedSource: '',
+        seedPeople:'',
+        remark:'',
+      },
+      temp2:{
       },
       dialogFormVisible: false,
       dialogFormVisible2: false,
@@ -161,20 +198,26 @@ export default {
       pvData: [],
       rules: {
         type: [{ required: true, message: 'type is required', trigger: 'change' }],
-        timebozhong: [{ type: 'date', required: true, message: 'timebozhong is required', trigger: 'change' }],
+        // seedTime: [{ type: 'string', required: true, message: 'seedTime is required', trigger: 'change' }],
         title: [{ required: true, message: 'title is required', trigger: 'blur' }]
       },
       downloadLoading: false
     }
   },
+  // computed:{
+  //   timeShow2(){
+  //     var _this =this
+  //     return _this.timeShow = true ? _this.temp : _this.temp2
+  //   }
+  // },
   created() {
     this.getList()
   },
   methods: {
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(response => {
-        this.list = response.data.items
+      seedList().then(response => {
+        this.list = response.data.records
         this.total = response.data.total
         // Just to simulate the time of the request
         setTimeout(() => {
@@ -214,28 +257,37 @@ export default {
     resetTemp() {
       this.temp = {
         id: undefined,
-        timebozhong: new Date(),
-        productname:'',
-        productbozhonglocation:'',
-        bozhongnum: '',
+        seedTime: new Date(),
+        cropName:'',
+        seedPlace:'',
+        seedRate: '',
+        seedSource: '',
+        seedPeople:'',
+        remark:'',
       }
     },
     handleCreate() {
       this.resetTemp()
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
+      this.isDis = false
+      this.timeShow = false
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
     },
     createData() {
       this.$refs['dataForm'].validate((valid) => {
+        this.$delete(this.temp,'seedTime')
+        this.temp2 = this.temp
+        console.log(this.temp2)
         if (valid) {
-          this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          this.temp.author = 'vue-element-admin'
-          createArticle(this.temp).then(() => {
-            this.list.unshift(this.temp)
+          // this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
+          // this.temp.author = 'vue-element-admin'
+          create(this.temp2).then(() => {
+            this.list.unshift(this.temp2)
             this.dialogFormVisible = false
+            this.isDis = true
             this.$notify({
               title: '成功',
               message: '创建成功',
@@ -247,20 +299,24 @@ export default {
       })
     },
     handleUpdate(row) {
-      this.temp = Object.assign({}, row) // copy obj
-      this.temp.timebozhong = new Date(this.temp.timebozhong)
+      const id = row.id;
+      detail(id).then(response => {
+        this.temp = response.data
+        // console.log(this.temp)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
+      })
       })
     },
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           const tempData = Object.assign({}, this.temp)
-          tempData.timebozhong = +new Date(tempData.timebozhong) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          updateArticle(tempData).then(() => {
+          console.log(tempData)
+          // tempData.seedTime = +new Date(tempData.seedTime) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
+          update(tempData).then(() => {
             const index = this.list.findIndex(v => v.id === this.temp.id)
             this.list.splice(index, 1, this.temp)
             this.dialogFormVisible = false
@@ -280,6 +336,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+      const ids = row.id;
+      deletes(ids).then(response => {
+        this.temp = response.data
+        console.log(this.temp)
+      })
         this.$message({
           type: 'success',
           message: '删除成功!'
@@ -292,17 +353,11 @@ export default {
         });        
       });          
     },
-    handleFetchPv(pv) {
-      fetchPv(pv).then(response => {
-        this.pvData = response.data.pvData
-        this.dialogPvVisible = true
-      })
-    },
     handleDownload() {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timebozhong', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timebozhong', 'title', 'type', 'importance', 'status']
+        const tHeader = ['seedTime', 'title', 'type', 'importance', 'status']
+        const filterVal = ['seedTime', 'title', 'type', 'importance', 'status']
         const data = this.formatJson(filterVal)
         excel.export_json_to_excel({
           header: tHeader,
@@ -314,7 +369,7 @@ export default {
     },
     formatJson(filterVal) {
       return this.list.map(v => filterVal.map(j => {
-        if (j === 'timebozhong') {
+        if (j === 'seedTime') {
           return parseTime(v[j])
         } else {
           return v[j]

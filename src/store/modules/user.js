@@ -7,7 +7,7 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roleName: []
 }
 
 const mutations = {
@@ -26,20 +26,20 @@ const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
-  SET_ROLES: (state, roles) => {
-    state.roles = roles
+  SET_ROLES: (state, roleName) => {
+    state.roleName = roleName
   }
 }
 
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { account, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password}).then(response => {
+      login({ account: account.trim(), password: password}).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        commit('SET_TOKEN', data)
+        setToken(data)
         resolve()
       }).catch(error => {
         reject(error)
@@ -47,7 +47,7 @@ const actions = {
     })
   },
 
-  // get user info
+  // // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
@@ -55,15 +55,17 @@ const actions = {
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-        const { roles, name, avatar, introduction } = data
-        commit('SET_ROLES', roles)
+        const { roleName,  name, avatar, introduction } = data
+        // const  {roleName}  = data.role
+        // console.log(roleName)       
+        commit('SET_ROLES', roleName)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
         resolve(data)
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
+        // roleName must be a non-empty array
+        if (!roleName || roleName.length <= 0) {
+          reject('getInfo: roleName must be a non-null array!')
         }
       }).catch(error => {
         reject(error)
@@ -79,11 +81,9 @@ const actions = {
         commit('SET_ROLES', [])
         removeToken()
         resetRouter()
-
         // reset visited views and cached views
         // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
         dispatch('tagsView/delAllViews', null, { root: true })
-
         resolve()
       }).catch(error => {
         reject(error)
@@ -108,12 +108,13 @@ const actions = {
     commit('SET_TOKEN', token)
     setToken(token)
 
-    const { roles } = await dispatch('getInfo')
+    const { roleName } = await dispatch('getInfo')
 
     resetRouter()
 
-    // generate accessible routes map based on roles
-    const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
+    // generate accessible routes map based on roleName
+    const accessRoutes = await dispatch('permission/generateRoutes', roleName, { root: true })
+    
     // dynamically add accessible routes
     router.addRoutes(accessRoutes)
 

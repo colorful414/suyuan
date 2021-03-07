@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="jquery-3.0.0.min.js"></script>
+<script src="d3.js"></script>
+<title>农产品销量排行</title>
+</head>
+<body>   
+  <center>
+    <div>
+      <svg width="1000" height="640"></svg>
+      <script src="config.js"></script> 
+      <script src="imgs.js"></script> 
+      <script src="color_ranges.js"></script> 
+      <script src="visual.js"></script>
+      <link rel="stylesheet" href="stylesheet.css">
+    </div>
+  </center>
+
+<script type="text/javascript">
+$.getJSON("1.json",function(date){
+  draw(date);
+})
+</script>
+</body>
+</html>

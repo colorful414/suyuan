@@ -6,11 +6,16 @@ const getters = {
   visitedViews: state => state.tagsView.visitedViews,
   cachedViews: state => state.tagsView.cachedViews,
   token: state => state.user.token,
+  Authorization: state => state.user.Authorization,
   avatar: state => state.user.avatar,
   name: state => state.user.name,
   introduction: state => state.user.introduction,
-  roles: state => state.user.roles,
+  roleName: state => state.user.roleName,
   permission_routes: state => state.permission.routes,
   errorLogs: state => state.errorLog.logs
 }
+// function MyAutoRun(){
+//   console.log(255+roleName)
+// };
+// window.onload=MyAutoRun();
 export default getters

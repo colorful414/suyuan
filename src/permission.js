@@ -30,17 +30,20 @@ router.beforeEach(async (to, from, next) => {
     } else {
     
       // 在 vuex 中获取用户权限，因为第一次登录时会把请求回来的用户权限存在 vuex 中
-      const hasRoles = store.getters.roles && store.getters.roles.length > 0 
+      // const hasRoles = store.getters.roleName && store.getters.roleName.length > 0 
+      const hasRoles = store.getters.name && store.getters.name.length > 0
+      // console.log(store.getters.name)
       
       if (hasRoles) {
+        // console.log(2333)
         next()  // 如果有 token 并且有权限，直接跳转
       } else {
         try {
           // 有 token 无权限，这就是用户第一次登录的情况，需要发送请求获取
-          const { roles } = await store.dispatch('user/getInfo')
-
+          const { roleName } = await store.dispatch('user/getInfo')
+          // console.log(roleName)
           // 筛选动态路由数组
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roleName)
 
           // 动态添加筛选后的路由数组
           router.addRoutes(accessRoutes)
@@ -52,7 +55,7 @@ router.beforeEach(async (to, from, next) => {
           // 获取用户权限报错会要求重新登录，并且删掉 token
           await store.dispatch('user/resetToken')
           
-          Message.error(error || 'Has Error')
+          Message.error({ message: error || 'Has Error' })
           next(`/login?redirect=${to.path}`)  // 重定向
           NProgress.done()
         }

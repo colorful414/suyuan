@@ -1,26 +1,35 @@
 <template>
   <div>
-      <input type="file" id="inputfile" name="fileContent">
-      <svg width="1900" height="1020"></svg>
+    <el-button type="success" icon="el-icon-video-camera-solid" @click="goShow" v-if='isDis' round>开始</el-button>
+    <div v-if="isShow">
+  <iframe src="/jqueryDynamicRanking/index.html" frameborder="0" style="width:1320px;height:650px;" id="iframeBox"></iframe>
+    </div>
   </div>
 </template>
 
 <script>
-import {external_imgs} from './echart_d3/imgs.js';
-import {config} from './echart_d3/config.js';
-import {getCsv , draw} from './echart_d3/visual.js';
-import {external_colors} from './echart_d3/colors.js';
 export default {
-    // mounted() {
-    //   const s = document.createElement('script');
-    //   s.type = 'text/javascript';
-    //   s.src = 'https://d3js.org/d3.v5.min.js';
-    //   document.body.appendChild(s);
-    //   console.log(1111);
-    // },
+  data(){
+    return{
+      isShow:false,
+      isDis:true,
+    }
+  },
+  methods:{
+    goShow(){
+      this.isShow = true;
+      this.isDis = false;
+    }
+  }
+
 }
 </script>
 
 <style scoped>
-@import 'echart_d3/stylesheet.css';
+#iframeBox{
+  border: 1px solid red;
+}
+.el-button{
+  margin: 0 auto;
+}
 </style>

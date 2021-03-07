@@ -6,14 +6,12 @@
 */
 body {
     margin: 0px;
-    width: 100%;
-    height: 100%;
 }
 
 input {
     position: absolute;
     top: 50%;
-    left: 45%;
+    left:45%;
 }
 
 .domain {
@@ -26,68 +24,70 @@ input {
 
 .tick text {
     fill: #8E8883;
-    font-size: 12pt;
+    font-size:12px;
     font-family: "Fira Code", "Source Han Sans CN"
 }
 
 .label {
-    fill: #5C5C5C;
-    font-size: 15pt;
+    fill: #000000;
+    font-size:16px;
     font-family: "Fira Code", "Source Han Sans CN";
     font-weight: bold
 }
 
 .dateLabel {
 
-    fill: #5C5C5C;
+    fill: #000000;
     display: table-cell;
-    font-size: 60pt;
+    font-size:20px;
     font-weight: bold;
     font-family: "Fira Code", "Source Han Sans CN"
 }
+
+/*日期样式*/
 
 .dateLabelRed {
 
     fill: #A72E2E;
     display: table-cell;
-    font-size: 90pt;
+    font-size:60px;
     font-weight: bold;
     font-family: "Fira Code", "Source Han Sans CN"
 }
 
 
 .days {
-    fill: #5C5C5C;
+    fill: #000000;
     font-weight: bold;
-    font-size: 55pt;
+    font-size:55px;
     font-family: "Fira Code", "Source Han Sans CN"
 }
 
 .topLabel {
-    fill: #5C5C5C;
+    fill: #000000;
     font-weight: bold;
-    font-size: 40pt;
+    font-size:20px;
     font-family: "Fira Code", "Source Han Sans CN"
 }
 
 .top {
-    fill: #5C5C5C;
+    fill: #000000;
     font-weight: bold;
-    font-size: 62pt;
+    font-size:62px;
     font-family: "Fira Code", "Source Han Sans CN"
 }
 
 .value {
     fill: #8A2E2E;
-    font-size: 20pt;
-    font-weight: 400;
+    font-size:20px;
+    font-weight:200;
     font-family: "Fira Code", "Source Han Sans CN"
 }
+/*签单金额样式*/
 
 .barInfo {
     fill: #FFFFFF;
-    font-weight: 800;
-    font-size: 24pt;
+    font-size:14px;
     font-family: "Fira Code", "Source Han Sans CN"
 }
 
@@ -98,23 +98,23 @@ input {
 }
 
 .days {
-    fill: r#5C5C5C;
+    fill:#000000;
     font-weight: bold;
-    font-size: 40pt;
+    font-size:20px;
     font-family: "Fira Code", "Source Han Sans CN"
 }
 
 .dayslabel {
-    fill: #5C5C5C;
+    fill: #000000;
     font-weight: bold;
-    font-size: 25pt;
+    font-size:25px;
     font-family: "Fira Code", "Source Han Sans CN"
 }
 
 .growth {
-    fill: #5C5C5C;
+    fill: #000000;
     font-weight: bold;
-    font-size: 40pt;
+    font-size:20px;
     font-family: "Fira Code", "Source Han Sans CN"
 }
 

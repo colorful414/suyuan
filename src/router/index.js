@@ -106,7 +106,7 @@ export const constantRoutes = [
 
 /**
  * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
+ * the routes that need to be dynamically loaded based on user roleName
  */
 export const asyncRoutes = [
   {
@@ -118,7 +118,7 @@ export const asyncRoutes = [
     meta: {
       title: '权限',
       icon: 'lock',
-      roles: ['admin', 'editor','other'] // you can set roles in root nav
+      roleName: ['企业负责人', 'editor','other'] // you can set roleName in root nav
     },
     children: [
       {
@@ -127,7 +127,7 @@ export const asyncRoutes = [
         name: 'PagePermission',
         meta: {
           title: '页面权限',
-          roles: ['admin'] // or you can only set roles in sub nav
+          roleName: ['admin'] // or you can only set roleName in sub nav
         }
       },
       {
@@ -136,7 +136,7 @@ export const asyncRoutes = [
         name: 'DirectivePermission',
         meta: {
           title: '指令权限'
-          // if do not set roles, means: this page does not require permission
+          // if do not set roleName, means: this page does not require permission
         }
       },
       {
@@ -145,7 +145,7 @@ export const asyncRoutes = [
         name: 'RolePermission',
         meta: {
           title: '角色权限',
-          roles: ['admin']
+          roleName: ['admin']
         }
       }
     ]
@@ -160,7 +160,7 @@ export const asyncRoutes = [
         path: '/member',
         component: () => import('@/views/member/index'),
         name: 'Member',
-        meta: { title: '员工管理', icon: 'lock',roles: ['other']},       
+        meta: { title: '员工管理', icon: 'lock',roleName: ['other']},       
       }
     ]
   },
@@ -200,7 +200,7 @@ export const asyncRoutes = [
         path: '/index',
         component: () => import('@/views/process/index'),
         name: 'Process',
-        meta: { title: '流程管理', icon: 'theme',roles: ['other'] },
+        meta: { title: '流程管理', icon: 'theme',roleName: ['other'] },
       }
     ]
   },
@@ -213,7 +213,7 @@ export const asyncRoutes = [
     meta: {
       title: '检验入库',
       icon: 'table',
-      roles: ['Inspectors']
+      roleName: ['Inspectors']
     },
     children: [
       {
@@ -227,7 +227,7 @@ export const asyncRoutes = [
   {
     path: '/zhongzhi',
     component: Layout,
-    meta: { title: '种植管理' ,icon: 'table',roles: ['Grower']},
+    meta: { title: '种植管理' ,icon: 'table',roleName: ['Grower']},
     redirect: '/zhongzhi/bozhong/index',
     children: [
       {
@@ -264,7 +264,7 @@ export const asyncRoutes = [
     meta: {
       title: '加工包装',
       icon: 'table',
-      roles: ['Packer']
+      roleName: ['Packer']
     },
     children: [
       {
@@ -283,7 +283,7 @@ export const asyncRoutes = [
     meta: {
       title: '物流管理',
       icon: 'table',
-      roles: ['wuliu'],
+      roleName: ['wuliu'],
     },
     children:[
       {
@@ -301,7 +301,7 @@ export const asyncRoutes = [
     meta: {
       title: '测试',
       icon: 'table'
-      ,roles: ['other']
+      ,roleName: ['other']
     },
     children: [
       {

@@ -29,7 +29,13 @@ const chartsRouter = {
       component: () => import('@/views/charts/echart2'),
       name: 'echart2',
       meta: { title: '综合图表2', noCache: true }
-    }    
+    },
+    {
+      path: 'echart3',
+      component: () => import('@/views/charts/echart3'),
+      name: 'echart3',
+      meta: { title: '综合图表3', noCache: true }
+    }     
   ]
 }
 
